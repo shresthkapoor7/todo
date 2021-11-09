@@ -19,14 +19,14 @@ class TasksScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.only(top: 40.0, left: 40),
+              padding: EdgeInsets.only(top: 40.0, left: 20),
               child: CircleAvatar(
                 backgroundColor: Colors.white,
-                radius: 30,
+                radius: 25,
                 child: Icon(
                   Icons.list,
                   color: Colors.red,
-                  size: 40,
+                  size: 35,
                 ),
               ),
             ),
@@ -34,7 +34,7 @@ class TasksScreen extends StatelessWidget {
               height: 10,
             ),
             Padding(
-              padding: EdgeInsets.only(left: 40.0),
+              padding: EdgeInsets.only(left: 20.0),
               child: Text(
                 'Todo',
                 style: TextStyle(
@@ -45,9 +45,9 @@ class TasksScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 45.0),
+              padding: EdgeInsets.only(left: 25.0),
               child: Text(
-                '10 Tasks',
+                '3 Tasks',
                 style: TextStyle(fontSize: 15, color: Colors.white),
               ),
             ),
@@ -56,18 +56,19 @@ class TasksScreen extends StatelessWidget {
             ),
             Flexible(
               child: Container(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 20.0, top: 20),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Add todo items here',
-                          style: TextStyle(fontSize: 80, color: Colors.green),
-                        )
-                      ],
+                child: ListView(
+                  padding: const EdgeInsets.all(20),
+                  children: <Widget>[
+                    Item(
+                      txt: 'Buy eggs',
                     ),
-                  ),
+                    Item(
+                      txt: 'Bread',
+                    ),
+                    Item(
+                      txt: 'Milk',
+                    )
+                  ],
                 ),
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -82,5 +83,39 @@ class TasksScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class Item extends StatelessWidget {
+  String txt = 'item';
+  bool press = false;
+  Item({required this.txt});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        padding: EdgeInsets.only(top: 5),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              txt,
+              style: TextStyle(color: Colors.black, fontSize: 20),
+            ),
+            IconButton(
+              onPressed: () {
+                if (press == true) {
+                  press = false;
+                } else {
+                  press = true;
+                }
+              },
+              icon: press
+                  ? Icon(Icons.check_box_outline_blank)
+                  : Icon(Icons.check_box_outlined),
+              color: Colors.black,
+            ),
+          ],
+        ));
   }
 }
