@@ -20,6 +20,8 @@ const kTextFieldDecoration = InputDecoration(
 bool af = false;
 
 class TasksScreen extends StatelessWidget {
+  final myController = TextEditingController();
+
   Widget buildBottomSheet(BuildContext context) {
     return Container(
         height: MediaQuery.of(context).size.height * 0.75,
@@ -73,11 +75,16 @@ class TasksScreen extends StatelessWidget {
                 autofocus: true,
                 textAlign: TextAlign.center,
                 decoration: kTextFieldDecoration,
+                controller: myController,
               ),
             ),
             TextButton(
                 onPressed: () {
-                  af = true;
+                  //TODO:
+                  if (myController.text != '')
+                    items.add(Item(txt: myController.text));
+                  myController.text = '';
+                  Navigator.pop(context);
                 },
                 child: Container(
                     decoration: BoxDecoration(
@@ -94,6 +101,12 @@ class TasksScreen extends StatelessWidget {
         ));
   }
 
+  List<Item> items = [
+    // Item(txt: 'Buy Egg'),
+    // Item(txt: 'Buy Bread'),
+    // Item(txt: 'Buy Choclate'),
+    // Item(txt: 'Buy milk')
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -158,7 +171,7 @@ class TasksScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 25.0),
               child: Text(
-                '3 Tasks',
+                items.length.toString(),
                 style: TextStyle(fontSize: 15, color: Colors.white),
               ),
             ),
@@ -169,17 +182,7 @@ class TasksScreen extends StatelessWidget {
               child: Container(
                 child: ListView(
                   padding: const EdgeInsets.all(20),
-                  children: <Widget>[
-                    Item(
-                      txt: 'Buy eggs',
-                    ),
-                    Item(
-                      txt: 'Bread',
-                    ),
-                    Item(
-                      txt: 'Milk',
-                    )
-                  ],
+                  children: items,
                 ),
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -207,7 +210,7 @@ class Item extends StatefulWidget {
 }
 
 class _ItemState extends State<Item> {
-  bool press = false;
+  bool press = true;
 
   @override
   Widget build(BuildContext context) {
@@ -236,7 +239,10 @@ class _ItemState extends State<Item> {
               },
               icon: press
                   ? Icon(Icons.check_box_outline_blank)
-                  : Icon(Icons.check_box_outlined),
+                  : Icon(
+                      Icons.check_box_outlined,
+                      color: Colors.red,
+                    ),
               color: Colors.black,
             ),
           ],
