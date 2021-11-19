@@ -18,10 +18,11 @@ const kTextFieldDecoration = InputDecoration(
   ),
 );
 bool af = false;
+int completedTasks = 0;
+List<int> cT = [];
 
 class TasksScreen extends StatelessWidget {
   final myController = TextEditingController();
-
   Widget buildBottomSheet(BuildContext context) {
     return Container(
         height: MediaQuery.of(context).size.height * 0.75,
@@ -80,7 +81,6 @@ class TasksScreen extends StatelessWidget {
             ),
             TextButton(
                 onPressed: () {
-                  //TODO:
                   if (myController.text != '')
                     items.add(Item(txt: myController.text));
                   myController.text = '';
@@ -171,8 +171,24 @@ class TasksScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 25.0),
               child: Text(
-                items.length.toString(),
-                style: TextStyle(fontSize: 15, color: Colors.white),
+                'Total Tasks ${items.length.toString()}',
+                style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.white,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.w600),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 25.0),
+              child: Text(
+                //TODO:
+                'Completed Tasks $completedTasks',
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.white,
+                  fontStyle: FontStyle.italic,
+                ),
               ),
             ),
             SizedBox(
@@ -231,9 +247,13 @@ class _ItemState extends State<Item> {
               onPressed: () {
                 setState(() {
                   if (press == true) {
+                    completedTasks += 1;
                     press = false;
+                    TasksScreen();
                   } else {
+                    completedTasks -= 1;
                     press = true;
+                    TasksScreen();
                   }
                 });
               },
